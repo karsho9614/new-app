@@ -1,6 +1,15 @@
 const http = require('http');
 const fs = require('fs');
 
+var server = http.createServer(
+    (request,response)=>{
+
+        var filePath = '.' + request.url;
+    if (filePath == './') {
+        filePath = './index.html';
+    }
+
+var extname = String(path.extname(filePath)).toLowerCase();
 var mimeTypes = {
     '.html': 'text/html',
     '.js': 'text/javascript',
@@ -21,8 +30,6 @@ var mimeTypes = {
 
 var contentType = mimeTypes[extname] || 'application/octet-stream';
 
-var server = http.createServer(
-    (request,response)=>{
         fs.readFile('./index.html','UTF-8',(error,data)=>{
             response.writeHead(200, {'Content-Type':contentType});
             response.write(data);
